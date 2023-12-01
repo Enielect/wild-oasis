@@ -1,0 +1,55 @@
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
+import { getCabin } from "../../services/apiCabins";
+
+import CabinRow from "./CabinRow";
+import Spinner from "../../ui/Spinner";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
+
+// const Table = styled.div`
+//   border: 1px solid var(--color-grey-200);
+//   width: calc(100% - 120px);
+//   font-size: 1.4rem;
+//   background-color: var(--color-grey-0);
+//   border-radius: 7px;
+//   overflow: hidden;
+// `;
+
+const StyledTable = styled.div`
+  width: calc(100% - 120px);
+  margin: 0 auto;
+`;
+
+export default function CabinTable() {
+  const { data: cabins, isLoading } = useQuery({
+    queryKey: ["Cabins"],
+    queryFn: getCabin,
+  });
+
+  console.log(cabins);
+  if (cabins?.error) console.error("error loading the cabins");
+
+  if (isLoading) return <Spinner />;
+
+  return (
+    <Menus>
+      <StyledTable>
+        <Table role="table" columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+          <Table.Header role="row">
+            <div></div>
+            <div>CABIN</div>
+            <div>CAPACITY</div>
+            <div>PRICE</div>
+            <div>DISCOUNT</div>
+            <div></div>
+          </Table.Header>
+          <Table.Body
+            data={cabins}
+            render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+          />
+        </Table>
+      </StyledTable>
+    </Menus>
+  );
+}
