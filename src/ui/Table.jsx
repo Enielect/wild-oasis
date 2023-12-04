@@ -76,7 +76,7 @@ function Row({ children }) {
 }
 
 function Body({ data, render }) {
-  if (!data.length) return <Empty />;
+  if (!data?.length) return <Empty />;
 
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }

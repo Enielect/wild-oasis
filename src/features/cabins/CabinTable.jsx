@@ -34,15 +34,26 @@ export default function CabinTable() {
 
   let filteredCabin;
 
+  //having troubles with always short-circcuiting the cabins to avoid the code breaking every time i reload
+  // the page
+
   const allCabins = searchParams.get("discount");
+  if (!allCabins) filteredCabin = cabins;
   if (allCabins === "all") filteredCabin = cabins;
   if (allCabins === "with-discount")
-    filteredCabin = cabins.filter((cabin) => cabin.discount > 0);
+    filteredCabin = cabins?.filter((cabin) => cabin.discount > 0);
   if (allCabins === "no-discount")
-    filteredCabin = cabins.filter((cabin) => cabin.discount === 0);
+    filteredCabin = cabins?.filter((cabin) => cabin.discount === 0);
   // const filteredCabin = console.log(cabins);
   if (cabins?.error) console.error("error loading the cabins");
-  useEffect(() => console.log(filteredCabin), [filteredCabin]);
+  // useEffect(() => console.log(filteredCabin), [filteredCabin]);
+
+  const sortValue = searchParams.get("sortBy");
+  const [filter, direction] = sortValue.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+  const sortedCabin = filteredCabin.sort(
+    (a, b) => (a[filter] - b[filter]) * modifier
+  );
 
   if (isLoading) return <Spinner />;
 
@@ -60,7 +71,8 @@ export default function CabinTable() {
           </Table.Header>
           <Table.Body
             // data={cabins}
-            data={filteredCabin}
+            // data={filteredCabin}
+            data={sortedCabin}
             render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
           />
         </Table>

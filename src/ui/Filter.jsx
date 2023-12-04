@@ -50,6 +50,7 @@ function Filter({ filterName, options }) {
       {options.map((option) => (
         <FilterButton
           active={option.value === currentSelected}
+          disabled={option.value === currentSelected}
           onClick={() => handleClick(option.value)}
           key={option.value}
         >
