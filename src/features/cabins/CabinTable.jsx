@@ -48,10 +48,11 @@ export default function CabinTable() {
   if (cabins?.error) console.error("error loading the cabins");
   // useEffect(() => console.log(filteredCabin), [filteredCabin]);
 
-  const sortValue = searchParams.get("sortBy");
+  const sortValue = searchParams.get("sortBy") || 'startDate-asc'; 
   const [filter, direction] = sortValue.split("-");
+  console.log(filter)
   const modifier = direction === "asc" ? 1 : -1;
-  const sortedCabin = filteredCabin.sort(
+  const sortedCabin = filteredCabin?.sort(
     (a, b) => (a[filter] - b[filter]) * modifier
   );
 
