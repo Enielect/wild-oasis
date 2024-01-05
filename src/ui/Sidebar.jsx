@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import { HiOutlineHome, HiCalendarDays, HiOutlineHomeModern, HiOutlineCog6Tooth, HiOutlineUsers } from "react-icons/hi2";
 import { NavList } from "./MainNav";
 import { StyledNavLink } from "./MainNav";
+import Uploader from "../data/Uploader";
 
 
 const StyledSidebar = styled.div`
@@ -47,6 +48,8 @@ function Sidebar() {
           </StyledNavLink>
         </li>
       </NavList>
+
+      <Uploader />
     </StyledSidebar>
   );
 }

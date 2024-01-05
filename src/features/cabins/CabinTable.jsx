@@ -8,6 +8,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import Empty from "../../ui/Empty";
 
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
@@ -48,7 +49,7 @@ export default function CabinTable() {
   if (cabins?.error) console.error("error loading the cabins");
   // useEffect(() => console.log(filteredCabin), [filteredCabin]);
 
-  const sortValue = searchParams.get("sortBy") || 'startDate-asc'; 
+  const sortValue = searchParams.get("SortBy") || 'startDate-asc'; 
   const [filter, direction] = sortValue.split("-");
   console.log(filter)
   const modifier = direction === "asc" ? 1 : -1;
@@ -56,7 +57,13 @@ export default function CabinTable() {
     (a, b) => (a[filter] - b[filter]) * modifier
   );
 
+  console.log(filteredCabin)
+
   if (isLoading) return <Spinner />;
+
+  if(!cabins.length) return <Empty resourceName='cabins' />
+
+  //for the cabins we need just the name and for the guests we need the fullName and email
 
   return (
     <Menus>

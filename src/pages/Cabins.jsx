@@ -25,8 +25,8 @@ function Cabins() {
           options={[
             { label: "Sort by name (A - Z) ", value: "name-asc" },
             { label: "Sort by name (Z - a) ", value: "name-desc" },
-            { label: "sort by price (low first)", value: "regularPrice-asc" },
-            { label: "ort by price (high first)", value: "regularPrice-desc" },
+            { label: "Sort by price (low first)", value: "regularPrice-asc" },
+            { label: "Sort by price (high first)", value: "regularPrice-desc" },
             { label: "Sort by capacity (low first)", value: "maxCpapcity-asc" },
             {
               label: "Sort by capacity (high first)",
