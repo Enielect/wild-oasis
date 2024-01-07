@@ -39,29 +39,30 @@ export default function CabinTable() {
   // the page
 
   const allCabins = searchParams.get("discount");
+
   if (!allCabins) filteredCabin = cabins;
   if (allCabins === "all") filteredCabin = cabins;
+
   if (allCabins === "with-discount")
     filteredCabin = cabins?.filter((cabin) => cabin.discount > 0);
   if (allCabins === "no-discount")
     filteredCabin = cabins?.filter((cabin) => cabin.discount === 0);
-  // const filteredCabin = console.log(cabins);
-  if (cabins?.error) console.error("error loading the cabins");
-  // useEffect(() => console.log(filteredCabin), [filteredCabin]);
 
-  const sortValue = searchParams.get("SortBy") || 'startDate-asc'; 
+  if (cabins?.error) console.error("error loading the cabins");
+
+  const sortValue = searchParams.get("SortBy") || "startDate-asc";
   const [filter, direction] = sortValue.split("-");
-  console.log(filter)
+  console.log(filter);
   const modifier = direction === "asc" ? 1 : -1;
   const sortedCabin = filteredCabin?.sort(
     (a, b) => (a[filter] - b[filter]) * modifier
   );
 
-  console.log(filteredCabin)
+  console.log(filteredCabin);
 
   if (isLoading) return <Spinner />;
 
-  if(!cabins.length) return <Empty resourceName='cabins' />
+  if (!cabins.length) return <Empty resourceName="cabins" />;
 
   //for the cabins we need just the name and for the guests we need the fullName and email
 
