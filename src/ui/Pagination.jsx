@@ -69,14 +69,16 @@ function Pagination({ count }) {
   function handleNext() {
     const next = currentPage === pageCount ? pageCount : currentPage + 1;
     searchParams.set("page", next);
-    setSearchParams("page", next);
+    setSearchParams(searchParams);
   }
 
   function handlePrev() {
     const prev = currentPage === 1 ? 1 : currentPage - 1;
     searchParams.set("page", prev);
-    setSearchParams("page", prev);
+    setSearchParams(searchParams);
   }
+
+  console.log(Number(searchParams.get(currentPage)))
 
   if (pageCount <= 1) return null;
   return (
