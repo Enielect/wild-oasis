@@ -1,28 +1,35 @@
 import { getToday } from "../utils/helpers";
+import { ITEMS_PER_PAGE } from "../utils/pagination-util";
 import { supabase } from "./supabase";
 
-export async function getBookings(filter, sortBy) {
+export async function getBookings(filter, sortBy, pageIndex) {
   let query = supabase
     .from("Bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, Cabins(name), Guests(fullName, email)"
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, Cabins(name), Guests(fullName, email)",
+      { count: "exact" }
     );
 
   // const { data, error } = await query[searchOperator || ]('status', filterValue);
 
-  if (filter)
-    query =  query[filter.method || "eq"](filter.field, filter.value);
+  if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
 
   if (sortBy)
-    query =  query.order(sortBy.value, {
+    query = query.order(sortBy.value, {
       ascending: sortBy.order === "asc",
     });
 
-  const { data, error } = await query;
+  const { data, error } = await query.range(
+    (pageIndex - 1) * ITEMS_PER_PAGE,
+    pageIndex * (ITEMS_PER_PAGE - 1)
+  );
+
+  //previous try
+  // const { count } = await supabase.from("Bookings").select("count(*)").single();
 
   if (error) throw new Error("Bookings not found");
 
-  return data;
+  return { data, count };
 }
 
 export async function getBooking(id) {
