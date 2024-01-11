@@ -19,10 +19,10 @@ export async function getBookings(filter, sortBy, pageIndex) {
       ascending: sortBy.order === "asc",
     });
 
-  const { data, error } = await query.range(
-    (pageIndex - 1) * ITEMS_PER_PAGE,
-    pageIndex * (ITEMS_PER_PAGE - 1)
-  );
+  const from = (pageIndex - 1) * ITEMS_PER_PAGE;
+  const to = from + ITEMS_PER_PAGE;
+
+  const { data, count, error } = await query.range(from, to);
 
   //previous try
   // const { count } = await supabase.from("Bookings").select("count(*)").single();

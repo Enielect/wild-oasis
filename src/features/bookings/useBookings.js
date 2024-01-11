@@ -7,7 +7,7 @@ function useBookings() {
 
   const pageIndex = searchParams.get("page") || 1;
   const filterValue = searchParams.get("status");
-  const filter =    
+  const filter =
     !filterValue || filterValue === "all"
       ? null
       : { field: "status", value: filterValue };
@@ -20,9 +20,9 @@ function useBookings() {
   const {
     isLoading,
     error,
-    data: { bookings, count },
+    data: { data: bookings, count } = {},
   } = useQuery({
-    queryKey: ["bookings", filter, sortBy],
+    queryKey: ["bookings", filter, sortBy, pageIndex],
     queryFn: () => getBookings(filter, sortBy, pageIndex),
   });
 

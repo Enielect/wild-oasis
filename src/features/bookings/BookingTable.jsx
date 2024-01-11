@@ -12,7 +12,7 @@ function BookingTable() {
 
   const { bookings, isLoading, count } = useBookings();
 
-  console.log(bookings.length);
+  console.log(bookings?.length);
   if (isLoading) return <Spinner />;
   if (!bookings?.length) return <Empty resourceName="bookings" />;
 
