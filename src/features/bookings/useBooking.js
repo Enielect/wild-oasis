@@ -4,10 +4,15 @@ import { useParams } from "react-router-dom";
 
 function useBooking() {
   const { bookingId } = useParams();
-  const { data: booking, isLoading, error } = useQuery({
+  const {
+    data: booking = {},
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["Bookings", bookingId],
     queryFn: () => getBooking(bookingId),
   });
+  console.log(booking);
 
   return { booking, bookingId, isLoading };
 }
