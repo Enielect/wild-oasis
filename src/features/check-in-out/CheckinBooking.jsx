@@ -12,7 +12,7 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import useBooking from "../bookings/useBooking";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCheckin from "./useCheckin";
 
 const Box = styled.div`
@@ -28,6 +28,11 @@ function CheckinBooking() {
 
   const moveBack = useMoveBack();
   const { booking, isLoading } = useBooking();
+  const { checkIn, isChecking } = useCheckin();
+
+  useEffect(() => {
+    setConfirmedPaid(booking?.isPaid ?? false);
+  }, [booking]);
 
   // const booking = {};
 
@@ -40,13 +45,12 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  const {checkIn, isChecking} = useCheckin();
-
   function handleCheckin() {
-    
+    if (!confirmedPaid) return;
+    checkIn({ bookingId, breakfast: {} });
   }
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isChecking) return <Spinner />;
 
   return (
     <>
