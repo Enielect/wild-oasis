@@ -25,6 +25,7 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmedPaid, setConfirmedPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
 
   const moveBack = useMoveBack();
   const { booking, isLoading } = useBooking();
@@ -63,9 +64,18 @@ function CheckinBooking() {
 
       <Box>
         <Checkbox
+          checked={addBreakfast}
+          onChange={setAddBreakfast((breakfast) => !breakfast)}
+          id="breakfast"
+          disabled={addBreakfast}
+        ></Checkbox>
+      </Box>
+
+      <Box>
+        <Checkbox
           checked={confirmedPaid}
           onChange={() => setConfirmedPaid((confirm) => !confirm)}
-          disabled={confirmedPaid}
+          disabled={confirmedPaid || isChecking}
         >
           I can confirm that user has paid the total amount of{" "}
           {formatCurrency(totalPrice)}
@@ -73,7 +83,7 @@ function CheckinBooking() {
       </Box>
 
       <ButtonGroup>
-        <Button disabled={!confirmedPaid} onClick={handleCheckin}>
+        <Button disabled={!confirmedPaid || isChecking} onClick={handleCheckin}>
           Check in booking #{bookingId}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
